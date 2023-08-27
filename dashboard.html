@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Painel Silvia Pintura Country</title>
+  </head>
+
+  <body>
+    <section>
+      <div id="addProd">
+        <div class="add-produto">
+          <div id="modalheader">
+            <h2>Adicionar produto</h2>
+            <span span class="material-icons-sharp" id="fecharModal">
+              close
+            </span>
+          </div>
+          <form action="">
+            <div class="input-group">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" />
+            </div>
+            <div class="input-group">
+              <label for="preco">Preço</label>
+              <input type="text" id="preco" />
+            </div>
+            <div class="input-group">
+              <label for="quantidade">Quantidade</label>
+              <input type="text" id="quantidade" />
+            </div>
+            <div class="input-group">
+              <label for="descricao">Descrição</label>
+              <textarea name="" id="descricao" cols="30" rows="10"></textarea>
+            </div>
+            <div class="input-group" id="imagemInputDiv">
+              <label for="imagemInput" id="imagemTxt"
+                >Selecione uma imagem</label
+              >
+              <input type="file" id="imagemInput" hidden />
+              <span id="file-chosen">nenhum arquivo selecionado</span>
+            </div>
+            <button type="submit">Adicionar</button>
+          </form>
+        </div>
+      </div>
+      <div id="overlay"></div>
+    </section>
+    <div class="container">
+      <aside>
+        <div class="toggle">
+          <div class="logo">
+            <img src="images/logo.png" />
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp"> close </span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a href="#" id="dashboardIcon" class="active">
+            <span class="material-icons-sharp"> dashboard </span>
+            <h3>Dashboard</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> receipt_long </span>
+            <h3>Histórico</h3>
+          </a>
+          <a href="#" id="produtos-link">
+            <span class="material-icons-sharp"> inventory </span>
+            <h3>Produtos</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> report_gmailerrorred </span>
+            <h3>Reports</h3>
+          </a>
+          <a href="#">
+            <span class="material-icons-sharp"> logout </span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+      <main>
+        <h1>Painel</h1>
+        <section id="dashboard">
+          <div class="analyse">
+            <div class="sales">
+              <div class="status">
+                <div class="info">
+                  <h3>Total de vendas</h3>
+                  <h1 id="vendas">R$65,024</h1>
+                </div>
+                <div class="progresss"></div>
+                <span
+                  class="material-symbols-outlined"
+                  style="font-size: 50px; color: seagreen"
+                >
+                  payments
+                </span>
+              </div>
+            </div>
+            <div class="searches">
+              <div class="status">
+                <div class="info">
+                  <h3>Total de usuários</h3>
+                  <h1 id="totuser">5</h1>
+                </div>
+                <div class="progresss"></div>
+                <span
+                  class="material-symbols-outlined"
+                  style="font-size: 50px; color: cornflowerblue"
+                >
+                  person
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="recent-orders">
+            <h2>Pedidos recentes</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome da peça</th>
+                  <th>Número deo pédido</th>
+                  <th>Pagamaneto</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <a href="#">Mostrar todos</a>
+          </div>
+        </section>
+        <section id="produtos">
+          <div class="produtos">
+            <div class="search">
+              <button id="addproduto">
+                Adicionar produto
+                <span class="material-icons-sharp"> add </span>
+              </button>
+              <input type="text" placeholder="Pesquisar" />
+              <button>
+                <span class="material-icons-sharp"> search </span>
+              </button>
+            </div>
+            <h2>Produtos</h2>
+          </div>
+          <div class="table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Descrição</th>
+                  <th>Preço</th>
+                  <th>Categoria</th>
+                  <th>Quantidade</th>
+                  <th>Imagem</th>
+                  <th></th>
+                </tr>
+              </thead>
+            </table>
+
+            <div id="gridProdutos">
+              <div id="itemDiv" data="5">
+                <div class="actions">
+                  <button class="delete">
+                    <span class="material-icons-sharp"> delete </span>
+                  </button>
+                </div>
+                <div class="itemProd">
+                  <p>Nome</p>
+                  <p>Descrição</p>
+                  <p>Preço</p>
+                  <p>Categoria</p>
+                  <p>Quantidade</p>
+                  <div class="img">
+                    <img src="images/placeholder.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="right-section">
+          <div class="nav">
+            <button id="menu-btn">
+              <span class="material-icons-sharp"> menu </span>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="js/orders.js"></script>
+    <script src="js/index.js"></script>
+    <script type="module" src="js/stats.js"></script>
+    <script type="module" src="js/produtos.js"></script>
+  </body>
+</html>
