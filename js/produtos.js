@@ -6,6 +6,13 @@ const addbtn = document.getElementById("addproduto");
 const addProd = document.getElementById("addProd");
 const overlay = document.getElementById("overlay");
 const fecharModal = document.getElementById("fecharModal");
+const nome = document.getElementById("nome");
+const descricao = document.getElementById("descricao");
+const preco = document.getElementById("preco");
+const categoria = document.getElementById("categoria");
+const quantidade = document.getElementById("quantidade");
+const imagem = document.getElementById("imagemInput");
+const addprodbtn = document.getElementById("addprodbtn");
 
 function getValueFromFieldOrParagraph(field, inputField) {
   if (inputField.style.display === "block") {
@@ -88,6 +95,57 @@ document.addEventListener("DOMContentLoaded", async function () {
   actualBtn.addEventListener("change", function () {
     fileChosen.innerHTML =
       this.files[0].name + `<span class="material-icons-sharp">task_alt</span>`;
+  });
+
+  addprodbtn.addEventListener("click", async function (event) {
+    const formData1 = new FormData();
+    formData1.append("file", imagem.files[0]);
+    var discordWebhookURL =
+      "https://discord.com/api/webhooks/1145156429834104882/ZcNU2eBroNGm5O5YqTNdDxloik6v3IR7ZDBgZ4tpt3vcuVUixLnqgIJ97olcU9ayn5OU";
+
+    fetch(discordWebhookURL, {
+      method: "POST",
+      body: formData1,
+    })
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("Erro ao enviar a imagem para o Discord.");
+        }
+        return response.json();
+      })
+      .then(function (discordResponse) {
+        var imageUrl = discordResponse.attachments[0].url;
+
+        const data = {
+          nome: nome.value,
+          descricao: descricao.value,
+          preco: preco.value,
+          categoria: categoria.value,
+          quantidade: quantidade.value,
+          imagem: imageUrl,
+        };
+
+        const produtoJSON = JSON.stringify(data);
+
+        console.log(produtoJSON);
+
+        fetch(`${settings.ApiUrl}/addProduto`, {
+          method: "POST",
+          body: JSON.stringify(data),
+        })
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("Erro ao enviar o produto para o servidor.");
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            console.log(data);
+            addProd.classList.toggle("active");
+            overlay.classList.toggle("active");
+            ExibirProdutos();
+          })
+      });
   });
 
   gridProdutos.addEventListener("click", async function (event) {

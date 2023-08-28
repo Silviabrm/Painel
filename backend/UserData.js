@@ -31,6 +31,34 @@ class UserData {
     }
   }
 
+  async getNextProdutoId() {
+    let result = await pool.query(`SELECT MAX(id) FROM produtos`);
+    if (result.rowCount > 0) {
+      return result.rows[0].max + 1;
+    } else {
+      return 1;
+    }
+  }
+
+  async addProduto(produto) {
+    const id = await this.getNextProdutoId();
+  
+    if (isNaN(produto.preco)) {
+      return false; 
+    }
+  
+    const precoNumerico = parseFloat(produto.preco);
+  
+    let result = await pool.query(
+      `INSERT INTO produtos (id, nome, descricao, preco, categoria, quantidade, imagem) VALUES ('${id}', '${produto.nome}', '${produto.descricao}', ${precoNumerico}, '${produto.categoria}', '${produto.quantidade}', '${produto.imagem}')`
+    );
+  
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   async getVendas() {
     let result = await pool.query(`SELECT * FROM stats`);
 

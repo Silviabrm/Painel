@@ -31,6 +31,24 @@
   --box-shadow: 0 2rem 3rem var(--color-light);
 }
 
+::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color: #e4e4e4;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: var(--color-primary);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -46,7 +64,7 @@ html {
 }
 
 body {
-  width: 100vw;
+  width: 88vw;
   height: 100vh;
   font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
@@ -124,7 +142,6 @@ b {
 .info {
   text-align: center;
 }
-
 .itemProd input {
   display: none;
   border-radius: 0.4rem;
@@ -311,6 +328,7 @@ main .analyse .searches svg circle {
   stroke-dasharray: 200;
 }
 .search {
+  justify-content: end;
   position: relative;
   width: 100%;
   display: flex;
@@ -413,8 +431,8 @@ main .analyse .searches svg circle {
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--color-white);
-  width: 400px;
-  height: 600px;
+  width: 350px;
+  height: 650px;
   display: none;
   z-index: 0;
   transition: all 0.3s ease-in-out;
@@ -471,9 +489,11 @@ main .analyse .searches svg circle {
   margin-top: 0%;
 }
 #gridProdutos {
+  overflow-y: scroll;
+  width: 85vw;
   display: grid;
   gap: 20px;
-  max-height: 600px;
+  max-height: 37vw;
 }
 
 #gridProdutos img {
@@ -490,11 +510,11 @@ main .analyse .searches svg circle {
   display: flex;
 }
 .table tr {
+  width: 85vw;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   justify-items: center;
-  gap: 10px;
-  width: 100%;
+  gap: 20px;
   padding: 10px;
   align-items: center;
 }
@@ -800,40 +820,58 @@ main .recent-orders a {
 }
 
 @media screen and (max-width: 768px) {
+  .table tr {
+    width: auto;
+    margin-bottom: -0%;
+    gap: 68px;
+  }
   #addproduto {
     font-size: 15px;
   }
   .table {
-    display: grid;
-    overflow-x: auto;
+    display: inline-flex;
+    width: 88vw;
+    flex-direction: row;
   }
-  .actions {
+  .table table {
+    display: inline-flex;
+    margin-top: 13%;
+  }
+  /* .actions {
     display: none;
-  }
+  } */
   .table tr {
-    grid-template-columns: repeat(1, 1fr); 
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 88vw;
   }
   .itemProd {
     justify-content: center;
     padding-inline: 4rem;
-    width: 50%;
+    height: 100%;
+    width: 100%;
     grid-template-columns: repeat(1, 1fr);
   }
   #itemDiv {
-    margin-right: 0;
+    flex-direction: column;
   }
   #gridProdutos {
+    overflow-y: hidden;
     display: flex;
+    display: inline-flex;
+    max-width:  88vw;
     max-height: 600px;
-    overflow-x: auto; 
+    overflow-x: auto;
   }
   .search {
-    width: 100%;
+    width: 88vw;
     margin-top: 2%;
     margin-bottom: 5%;
   }
+  main h1{
+    max-width: 88vw;
+  }
   .produtos {
-    width: auto;
+    width: 88vw;
   }
   .itemProd {
     gap: 50px;
@@ -845,7 +883,7 @@ main .recent-orders a {
     width: 125px;
   }
   .container {
-    width: 100%;
+    width: 88vw;
     grid-template-columns: 1fr;
     padding: 0 var(--padding-1);
   }

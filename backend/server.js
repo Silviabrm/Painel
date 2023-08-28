@@ -16,6 +16,7 @@ const fs = require("fs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(
@@ -34,6 +35,30 @@ app.get("/checkLogin/:email/:senha", async (req, res) => {
   const senha = req.params.senha;
   const resposta = await userDataReader.checkLogin(email, senha)
   console.log(resposta);
+  if (resposta) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
+app.post("/addProduto", async (req, res) => {
+  console.log(req.body);
+  const nome = req.body.nome;
+  const descricao = req.body.descricao;
+  const preco = req.body.preco;
+  const categoria = req.body.categoria;
+  const quantidade = req.body.quantidade;
+  const imagem = req.body.imagem;
+  const data = {
+    nome: nome,
+    descricao: descricao,
+    preco: preco,
+    categoria: categoria,
+    quantidade: quantidade,
+    imagem: imagem,
+  }
+  const resposta = await userDataReader.addProduto(data);
   if (resposta) {
     res.send(true);
   } else {
