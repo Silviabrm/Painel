@@ -115,11 +115,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
       .then(function (discordResponse) {
         var imageUrl = discordResponse.attachments[0].url;
-
+        const precoFormatado = preco.value.replace(",", ".");
         const data = {
           nome: nome.value,
           descricao: descricao.value,
-          preco: preco.value,
+          preco: precoFormatado,
           categoria: categoria.value,
           quantidade: quantidade.value,
           imagem: imageUrl,
@@ -131,8 +131,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         fetch(`${settings.ApiUrl}/addProduto`, {
           method: "POST",
-          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
         })
+        
           .then(function (response) {
             if (!response.ok) {
               throw new Error("Erro ao enviar o produto para o servidor.");

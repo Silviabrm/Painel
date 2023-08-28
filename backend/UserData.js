@@ -43,9 +43,9 @@ class UserData {
   async addProduto(produto) {
     const id = await this.getNextProdutoId();
   
-    if (isNaN(produto.preco)) {
-      return false; 
-    }
+    // if (isNaN(produto.preco)) {
+    //   return false; 
+    // }
   
     const precoNumerico = parseFloat(produto.preco);
   
