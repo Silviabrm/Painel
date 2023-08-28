@@ -39,18 +39,30 @@ async function ExibirProdutos() {
                     </button>
                 </div>
                 <div class="itemProd">
-                <p class="editable nome">${element.nome}</p>
-                <input type="text" class="edit editNome" value="${element.nome}">
+                <div class="item">
+                  <p class="editable nome">${element.nome}</p>
+                  <input type="text" class="edit editNome" value="${element.nome}">
+                </div>
+                <div class="item">
                 <p class="editable descricao">${element.descricao}</p>
                 <input type="text" class="edit editDesc" value="${element.descricao}">
+                </div>
+                <div class="item">
                 <p class="editable preco">${element.preco}</p>
                 <input type="text" class="edit editPreco" value="${element.preco}">
+                </div>
+                <div class="item">
                 <p class="editable categoria">${element.categoria}</p>
                 <input type="text" class="edit editCate" value="${element.categoria}">
+                </div>
+                <div class="item">
                 <p class="editable quantidade">${element.quantidade}</p>
+                </div>
+                <div class="item">
                 <input type="text" class="edit editQtd" value="${element.quantidade}">
                     <div class="img">
                         <img src="${element.imagem}" alt="">
+                    </div>
                     </div>
                 </div>
                 <div class="actions">
@@ -132,11 +144,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         fetch(`${settings.ApiUrl}/addProduto`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         })
-        
           .then(function (response) {
             if (!response.ok) {
               throw new Error("Erro ao enviar o produto para o servidor.");
@@ -148,7 +159,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             addProd.classList.toggle("active");
             overlay.classList.toggle("active");
             ExibirProdutos();
-          })
+          });
       });
   });
 
