@@ -91,6 +91,42 @@ class UserData {
     return data;
   }
 
+  async getLogs() {
+    let result = await pool.query(`SELECT * FROM log_estoque ORDER BY data DESC`);
+
+    const data = result.rows.map((row) => {
+      return {
+        id: row.id,
+        data: format(new Date(row.data), "dd/MM/yyyy HH:mm:ss"),
+        nome: row.nome,
+        quantidade: row.quantidade,
+        categoria: row.categoria,
+      };
+    });
+    return data;
+  }
+
+  async getProduto(id) {
+    let result = await pool.query(`SELECT * FROM produtos WHERE id = '${id}'`);
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    } else {
+      return null;
+    }
+  }
+
+  async addLog(log) {
+    const quantidadeNumerico = parseInt(log.quantidade);
+    let result = await pool.query(
+      `INSERT INTO log_estoque (nome, categoria, quantidade) VALUES ('${log.nome}', '${log.categoria}', ${quantidadeNumerico})`
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async getProdutos() {
     let result = await pool.query(`SELECT * FROM produtos ORDER BY nome ASC`);
 

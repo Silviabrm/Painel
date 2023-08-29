@@ -33,7 +33,15 @@ app.use(
 app.put("/updateQuantidade/:itemId", async (req, res) => {
   const itemId = req.params.itemId;
   const amount = parseInt(req.body.amount); 
+
+  const produto = await userDataReader.getProduto(itemId);
   try {
+    const logData = {
+      nome: produto.nome,
+      categoria: produto.categoria,
+      quantidade: amount,
+    }
+    const logResposta = await userDataReader.addLog(logData);
     const response = await userDataReader.updateQuantidade(itemId, amount);
 
     if (response.rowCount > 0) {
@@ -47,11 +55,37 @@ app.put("/updateQuantidade/:itemId", async (req, res) => {
   }
 });
 
+app.get("/logs", async (req, res) => {
+  const resposta = await userDataReader.getLogs();
+  res.send(resposta);
+});
+
+
 app.get("/checkLogin/:email/:senha", async (req, res) => {
   const email = req.params.email;
   const senha = req.params.senha;
   const resposta = await userDataReader.checkLogin(email, senha)
   console.log(resposta);
+  if (resposta) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
+app.post("/addLog", async (req, res) => {
+  console.log(req.body);
+  const nome = req.body.nome;
+  const categoria = req.body.categoria;
+  const quantidade = req.body.quantidade;
+  const data = req.body.data;
+  const dataObject = {
+    nome: nome,
+    categoria: categoria,
+    quantidade: quantidade,
+    data: new Date(data),
+  }
+  const resposta = await userDataReader.addLog(dataObject);
   if (resposta) {
     res.send(true);
   } else {
@@ -75,6 +109,15 @@ app.post("/addProduto", async (req, res) => {
     quantidade: quantidade,
     imagem: imagem,
   }
+
+  const logData = {
+    nome: nome,
+    categoria: categoria,
+    quantidade: quantidade,
+  }
+
+  const logResposta = await userDataReader.addLog(logData);
+
   const resposta = await userDataReader.addProduto(data);
   if (resposta) {
     res.send(true);

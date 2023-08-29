@@ -25,7 +25,7 @@
               close
             </span>
           </div>
-          <form action="">
+          <div action="">
             <div class="input-group">
               <label for="nome">Nome</label>
               <input type="text" id="nome" />
@@ -54,7 +54,7 @@
               <span id="file-chosen">nenhum arquivo selecionado</span>
             </div>
             <button type="submit" id="addprodbtn">Adicionar</button>
-          </form>
+          </div>
         </div>
       </div>
       <div id="overlay"></div>
@@ -92,7 +92,6 @@
             <h3>Logout</h3>
           </a>
         </div>
-        
       </aside>
       <main>
         <h1>Painel</h1>
@@ -146,6 +145,7 @@
             <a href="#">Mostrar todos</a>
           </div>
         </section>
+
         <section id="produtos">
           <div class="produtos">
             <div class="search">
@@ -176,30 +176,14 @@
             </table>
 
             <div id="gridProdutos">
-              <div id="itemDiv" data="5">
-                <div class="actions">
-                  <button class="delete">
-                    <span class="material-icons-sharp"> delete </span>
-                  </button>
-                </div>
-                <div class="itemProd">
-                  <p>Nome</p>
-                  <p>Descrição</p>
-                  <p>Preço</p>
-                  <p>Categoria</p>
-                  <p>Quantidade</p>
-                  <div class="img">
-                    <img src="images/placeholder.png" alt="" />
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </section>
         <section id="estoque">
           <div class="estoque">
             <div class="search">
-              <button id="addproduto">
+              <button id="logEstoqueBtn">
                 Histórico do estoque
                 <span class="material-icons-sharp"> manage_search </span>
               </button>
@@ -210,28 +194,48 @@
             </div>
             <h2>Produtos</h2>
           </div>
-            <div id="gridProdutos2">
-              <div id="itemDiv2" data="5">
-                <div class="itemProd2">
+          <div id="gridProdutos2">
+          </div>
+        </section>
+        <section id="logEstoque">
+          <div class="estoque">
+            <div class="search">
+              <input type="text" placeholder="Pesquisar" />
+              <button>
+                <span class="material-icons-sharp"> search </span>
+              </button>
+            </div>
+            <h2>Entrada/Saída</h2>
+          </div>
+          <div class="table2">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Quantidade</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+            </table>
+
+            <div id="gridProdutos3">
+              <div id="itemDiv3" data="5">
+                <div class="actions">
+                  <button class="">
+                    <span class="material-icons-sharp"> </span>
+                  </button>
+                </div>
+                <div class="itemProd3">
                   <p>Nome</p>
-                  <div class="imgEs">
-                    <img src="images/placeholder.png" alt="" />
-                  </div>
+                  <p>Categoria</p>
                   <p>Quantidade</p>
-                  <div id="quantidadediv">
-                    <button id="removequantidade">
-                      <span class="material-icons-sharp"> remove </span>
-                    </button>
-                    <p id="qtdAtual">6</p>
-                    <button id="addquantidade">
-                      <span class="material-icons-sharp"> add </span>
-                    </button>
-                  </div>
+                  <p>Data</p>
                 </div>
               </div>
             </div>
+          </div>
         </section>
-
         <div class="right-section">
           <div class="nav">
             <button id="menu-btn">
@@ -243,7 +247,7 @@
     </div>
 
     <script src="js/orders.js"></script>
-    <script src="js/index.js"></script>
+    <script type="module" src="js/index.js"></script>
     <script type="module" src="js/stats.js"></script>
     <script type="module" src="js/produtos.js"></script>
   </body>

@@ -25,11 +25,11 @@ function getValueFromFieldOrParagraph(field, inputField) {
 }
 
 async function ExibirProdutos() {
-  if (produtoslink.classList.contains("active")) {
-    try {
-      const response = await fetch(`${settings.ApiUrl}/produtos`);
-      const data = await response.json();
-      gridProdutos.innerHTML = ``;
+  try {
+    const response = await fetch(`${settings.ApiUrl}/produtos`);
+    const data = await response.json();
+    gridProdutos.innerHTML = ``;
+    if (produtoslink.classList.contains("active")) {
       data.forEach((element) => {
         gridProdutos.innerHTML += `
             <div id="itemDiv">
@@ -77,20 +77,7 @@ async function ExibirProdutos() {
             </div>
                 `;
       });
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    gridProdutos.innerHTML = ``;
-  }
-}
-
-async function ExibirEstoque() {
-  if (estoquelink.classList.contains("active")) {
-    try {
-      const response = await fetch(`${settings.ApiUrl}/produtos`);
-      const data = await response.json();
-      gridEstoque.innerHTML = ``;
+    } else if(estoquelink.classList.contains("active")){
       data.forEach((element) => {
         gridEstoque.innerHTML += `
           <div id="itemDiv2">
@@ -111,13 +98,12 @@ async function ExibirEstoque() {
               </div>
                 `;
       });
-    } catch (error) {
-      console.log(error);
     }
-  } else {
-    gridProdutos.innerHTML = ``;
+  } catch (error) {
+    console.log(error);
   }
 }
+
 
 async function updateQuantidade(itemId, amount) {
   try {
@@ -133,7 +119,7 @@ async function updateQuantidade(itemId, amount) {
         }),
       }
     );
-
+      
     if (!response.ok) {
       console.log("Erro ao atualizar a quantidade.");
     }
@@ -144,13 +130,11 @@ async function updateQuantidade(itemId, amount) {
 
 sidebar.addEventListener("click", async function (event) {
   ExibirProdutos();
-  ExibirEstoque();
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
   ExibirProdutos();
-  ExibirEstoque();
-  
+
   const actualBtn = document.getElementById("imagemInput");
 
   const fileChosen = document.getElementById("file-chosen");
@@ -224,15 +208,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
       });
   });
-  
-  
+
   gridEstoque.addEventListener("click", async function (event) {
     const addQuantidade = event.target.closest("#addQtd");
     if (addQuantidade) {
       const itemId = addQuantidade.getAttribute("data-id");
-      const quantidadeInput = document.getElementById("quantidadeInput" + itemId);
+      const quantidadeInput = document.getElementById(
+        "quantidadeInput" + itemId
+      );
       await updateQuantidade(itemId, quantidadeInput.value);
-      ExibirEstoque();
+      ExibirProdutos();
     }
   });
   gridProdutos.addEventListener("click", async function (event) {
