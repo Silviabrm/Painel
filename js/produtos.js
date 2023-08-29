@@ -1,7 +1,9 @@
 import settings from "./settings.js";
 const produtoslink = document.getElementById("produtos-link");
+const estoquelink = document.getElementById("estoque-link");
 const sidebar = document.querySelector(".sidebar");
 const gridProdutos = document.getElementById("gridProdutos");
+const gridEstoque = document.getElementById("gridProdutos2");
 const addbtn = document.getElementById("addproduto");
 const addProd = document.getElementById("addProd");
 const overlay = document.getElementById("overlay");
@@ -83,12 +85,72 @@ async function ExibirProdutos() {
   }
 }
 
+async function ExibirEstoque() {
+  if (estoquelink.classList.contains("active")) {
+    try {
+      const response = await fetch(`${settings.ApiUrl}/produtos`);
+      const data = await response.json();
+      gridEstoque.innerHTML = ``;
+      data.forEach((element) => {
+        gridEstoque.innerHTML += `
+          <div id="itemDiv2">
+                <div class="itemProd2">
+                  <p>${element.nome}</p>
+                  <div class="img2">
+                    <img src="${element.imagem}" alt="" />
+                  </div>
+                  <div id="qtdAt">
+                    <p>Quantidade atual: <span>${element.quantidade}</span></p>
+                  </div>
+                  <input type="number" id="quantidadeInput${element.id}" value="0" />
+                  <button id="addQtd" data-id="${element.id}">
+                    Adicionar
+                    <span class="material-icons-sharp"> add </span>
+                  </button>
+                </div>
+              </div>
+                `;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    gridProdutos.innerHTML = ``;
+  }
+}
+
+async function updateQuantidade(itemId, amount) {
+  try {
+    const response = await fetch(
+      `${settings.ApiUrl}/updateQuantidade/${itemId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: amount,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.log("Erro ao atualizar a quantidade.");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 sidebar.addEventListener("click", async function (event) {
   ExibirProdutos();
+  ExibirEstoque();
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
   ExibirProdutos();
+  ExibirEstoque();
+  
   const actualBtn = document.getElementById("imagemInput");
 
   const fileChosen = document.getElementById("file-chosen");
@@ -162,7 +224,17 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
       });
   });
-
+  
+  
+  gridEstoque.addEventListener("click", async function (event) {
+    const addQuantidade = event.target.closest("#addQtd");
+    if (addQuantidade) {
+      const itemId = addQuantidade.getAttribute("data-id");
+      const quantidadeInput = document.getElementById("quantidadeInput" + itemId);
+      await updateQuantidade(itemId, quantidadeInput.value);
+      ExibirEstoque();
+    }
+  });
   gridProdutos.addEventListener("click", async function (event) {
     const editableElement = event.target.closest(".editable");
     const deleteButton = event.target.closest(".delete");

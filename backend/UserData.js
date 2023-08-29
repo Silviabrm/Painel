@@ -40,12 +40,32 @@ class UserData {
     }
   }
 
+  async getQuantidade(itemId) {
+    let result = await pool.query(
+      `SELECT quantidade FROM produtos WHERE id = '${itemId}'`
+    );
+    if (result.rowCount > 0) {
+      return result.rows[0].quantidade;
+    } else {
+      return 0;
+    }
+  }
+
+  async updateQuantidade (itemId, amount) {
+    let result = await pool.query(
+      `UPDATE produtos SET quantidade = quantidade + $1 WHERE id = $2`,
+      [amount, itemId]
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async addProduto(produto) {
     const id = await this.getNextProdutoId();
-  
-    // if (isNaN(produto.preco)) {
-    //   return false; 
-    // }
+
   
     const precoNumerico = parseFloat(produto.preco);
   
@@ -72,7 +92,7 @@ class UserData {
   }
 
   async getProdutos() {
-    let result = await pool.query(`SELECT * FROM produtos`);
+    let result = await pool.query(`SELECT * FROM produtos ORDER BY nome ASC`);
 
     const data = result.rows.map((row) => {
       return {

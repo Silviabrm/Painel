@@ -16,7 +16,8 @@ const fs = require("fs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(
   cors({
@@ -28,6 +29,23 @@ app.use(
     ],
   })
 );
+
+app.put("/updateQuantidade/:itemId", async (req, res) => {
+  const itemId = req.params.itemId;
+  const amount = parseInt(req.body.amount); 
+  try {
+    const response = await userDataReader.updateQuantidade(itemId, amount);
+
+    if (response.rowCount > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Erro ao atualizar a quantidade.");
+  }
+});
 
 app.get("/checkLogin/:email/:senha", async (req, res) => {
   const email = req.params.email;
