@@ -8,6 +8,9 @@ if (email.value == "" || senha.value == "") {
     try {
       const response = await fetch(
         `${settings.ApiUrl}/checkLogin/${email.value}/${senha.value}`,
+        {
+          credentials: "include",
+        }
       );
       const data = await response.json();
       console.log(data);

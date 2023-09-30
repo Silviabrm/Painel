@@ -75,9 +75,9 @@
             <span class="material-icons-sharp"> dashboard </span>
             <h3>Dashboard</h3>
           </a>
-          <a href="">
+          <a href="" id="historico-link">
             <span class="material-icons-sharp"> receipt_long </span>
-            <h3>Histórico</h3>
+            <h3>Vendas</h3>
           </a>
           <a href="" id="produtos-link">
             <span class="material-icons-sharp"> inventory </span>
@@ -133,8 +133,8 @@
             <table>
               <thead>
                 <tr>
-                  <th>Nome da peça</th>
-                  <th>Número deo pédido</th>
+                  <th>Número do pedido</th>
+                  <th>Total</th>
                   <th>Pagamaneto</th>
                   <th>Status</th>
                   <th></th>
@@ -142,7 +142,6 @@
               </thead>
               <tbody></tbody>
             </table>
-            <a href="#">Mostrar todos</a>
           </div>
         </section>
 
@@ -177,6 +176,36 @@
 
             <div id="gridProdutos">
               
+            </div>
+          </div>
+        </section>
+        <section id="historico">
+          <div class="historico">
+            <div class="search">
+              <input type="text" placeholder="Pesquisar" />
+              <button>
+                <span class="material-icons-sharp"> search </span>
+              </button>
+            </div>
+            <h2>Vendas</h2>
+          </div>
+          <div class="table table3">
+            <table>
+              <thead>
+                <tr>
+                  <th>Número do pedido</th>
+                  <th>Total</th>
+                  <th>Pagamento</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th></th>
+                </tr>
+              </thead>
+            </table>
+
+            <div id="gridPedidos">
+              <div id="itemDiv">
+              </div>
             </div>
           </div>
         </section>
@@ -246,7 +275,7 @@
       </main>
     </div>
 
-    <script src="js/orders.js"></script>
+    <script type="module" src="js/orders.js"></script>
     <script type="module" src="js/index.js"></script>
     <script type="module" src="js/stats.js"></script>
     <script type="module" src="js/produtos.js"></script>

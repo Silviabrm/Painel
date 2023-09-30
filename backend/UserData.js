@@ -51,6 +51,118 @@ class UserData {
     }
   }
 
+  async getPedido(pedidoId) {
+    let result = await pool.query(
+      `SELECT * FROM pedidos WHERE num_pedido = '${pedidoId}'`
+    );
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    } else {
+      return null;
+    }
+  }
+
+  async getSessionId(userId) {
+    let result = await pool.query(
+      `SELECT session_id FROM session_adm WHERE user_id = '${userId}' ORDER BY data DESC LIMIT 1`
+    );
+    if (result.rowCount > 0) {
+      return result.rows[0].session_id;
+    } else {
+      return null;
+    }
+  }
+
+  async createSessionId(clienteId) {
+    const sessionId = uuidv4();
+    const result = await pool.query(
+      `INSERT INTO session_adm (session_id, user_id) VALUES ('${sessionId}', '${clienteId}')`
+    );
+    if (result.rowCount > 0) {
+      return sessionId;
+    } else {
+      return null;
+    }
+  }
+
+  async checkSessionExists(sessionId) {
+    try {
+      const query = {
+        text: "SELECT * FROM session_adm WHERE session_id = $1",
+        values: [sessionId],
+      };
+      const result = await pool.query(query);
+      return result.rows.length > 0;
+    } catch (error) {
+      console.error("Erro ao verificar sessão:", error);
+      throw error;
+    }
+  }
+
+  async deleteSessionByUserId(sessionid) {
+    try {
+      const query = {
+        text: "DELETE FROM session_adm WHERE session_id = $1",
+        values: [sessionid],
+      };
+      const result = await pool.query(query);
+      return result.rowCount;
+    } catch (error) {
+      console.error("Erro ao excluir sessão por ID do usuário:", error);
+      throw error;
+    }
+  }
+
+  async getSessionByUserId(userId) {
+    try {
+      const query = {
+        text: "SELECT * FROM session_adm WHERE user_id = $1 ORDER BY data DESC LIMIT 1",
+        values: [userId],
+      };
+      const result = await pool.query(query);
+      return result.rows[0];
+    } catch (error) {
+      console.error("Erro ao buscar sessão por ID do usuário:", error);
+      throw error;
+    }
+  }
+
+  async getUserBySession(sessionId) {
+    try {
+      const query = {
+        text: "SELECT * FROM session_adm WHERE session_id = $1 ORDER BY data DESC LIMIT 1",
+        values: [sessionId],
+      };
+      const result = await pool.query(query);
+      return result.rows[0];
+    } catch (error) {
+      console.error("Erro ao buscar sessão por ID:", error);
+      return 0;
+    }
+  }
+
+  async getCleinteByEmail(email) {
+   let result = await pool.query(
+      `SELECT * FROM usuarios WHERE email = '${email}'`
+    );
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    } else {
+      return null;
+    }
+  }
+
+  async getClienteBySessionId(sessionId) {
+    let result = await pool.query(
+      `SELECT * FROM usuarios WHERE id = (SELECT user_id FROM session WHERE session_id = '${sessionId}')`
+    );
+    if (result.rowCount > 0) {
+      return result.rows[0];
+    } else {
+      return null;
+    }
+  }
+
   async updateQuantidade (itemId, amount) {
     let result = await pool.query(
       `UPDATE produtos SET quantidade = quantidade + $1 WHERE id = $2`,
@@ -63,12 +175,20 @@ class UserData {
     }
   }
 
+  async getProdutosPedido(pedidoId) {
+    let result = await pool.query(
+      `SELECT * FROM pedido_produtos WHERE pedido_id = '${pedidoId}'`
+    );
+    if (result.rowCount > 0) {
+      return result.rows;
+    } else {
+      return null;
+    }
+  }
+
   async addProduto(produto) {
     const id = await this.getNextProdutoId();
-
-  
     const precoNumerico = parseFloat(produto.preco);
-  
     let result = await pool.query(
       `INSERT INTO produtos (id, nome, descricao, preco, categoria, quantidade, imagem) VALUES ('${id}', '${produto.nome}', '${produto.descricao}', ${precoNumerico}, '${produto.categoria}', '${produto.quantidade}', '${produto.imagem}')`
     );
@@ -79,14 +199,32 @@ class UserData {
       return false;
     }
   }
+
+  async getPedidos() {
+    let result = await pool.query(`SELECT * FROM pedidos ORDER BY data DESC`);
+    if (result.rowCount > 0) {
+      return result.rows;
+    } else {
+      return null;
+    }
+  }
+
+  async getNumOfClientes() {
+    let result = await pool.query(`SELECT COUNT(*) FROM clientes`);
+    if (result.rowCount > 0) {
+      return result.rows[0].count;
+    } else {
+      return 0;
+    }
+  }
+  
   async getVendas() {
     let result = await pool.query(`SELECT * FROM stats`);
 
     const data = result.rows.map((row) => {
       return {
         vendas: row.tot_venda,
-        qtdUser: row.qtd_user,
-      }
+      };
     });
     return data;
   }

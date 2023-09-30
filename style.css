@@ -119,7 +119,7 @@ b {
 .danger {
   color: var(--color-danger);
 }
-.itemProd3{
+.itemProd3 {
   font-size: 13px;
 }
 .bold {
@@ -139,7 +139,66 @@ b {
 .warning {
   color: var(--color-warning);
 }
+.detailtitle{
+  margin-top: 5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#detalhesPedido{
+  margin-top: 3rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+.product-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.product-info p{
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+.product-info h4{
+  margin-bottom: 1rem;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-content: center; /* Centralize os itens horizontalmente */
+  align-items: center; /* Centralize os itens verticalmente */
+  padding: 20px;
+}
+a{
+  text-decoration: none;
+  color: #6c9bcf;
+}
+/* Estilos para os cards de produto */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Defina a largura do card como 100% para ocupar o espaço disponível */
+  max-width: 250px; /* Defina a largura máxima do card */
+  border-radius: 15px;
+  background-color: var(--color-white);
+  padding: 20px;
+}
 
+#detalhesPedido div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .container {
   display: grid;
   width: 96%;
@@ -366,18 +425,17 @@ main .analyse .searches svg circle {
 }
 .itemProd3,
 .itemProd {
+  width: 86vw;
   display: grid;
+  background-color: var(--color-white);
+  border-radius: 15px;
   grid-template-columns: repeat(6, 1fr);
   justify-items: center;
-  gap: 115px;
-  text-align: center;
-  border-radius: 15px;
-  width: 100%;
-  background-color: #f0f0f0;
+  gap: 20px;
   padding: 10px;
   align-items: center;
 }
-.itemProd3{
+.itemProd3 {
   grid-template-columns: repeat(4, 1fr);
 }
 #addProd textarea,
@@ -527,8 +585,21 @@ main .analyse .searches svg circle {
   border-radius: 8px;
 }
 #itemDiv3,
-#itemDiv {
+#gridPedidos {
   display: flex;
+  flex-direction: column;
+  max-height: 75vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+#itemDiv {
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  flex-direction: row-reverse;
 }
 .table2 tr,
 .table tr {
@@ -542,6 +613,24 @@ main .analyse .searches svg circle {
 }
 .table2 tr {
   grid-template-columns: repeat(4, 1fr);
+}
+.ct2{
+  width: 100vw !important;
+}
+#buttonDiv{
+  display: flex;
+  justify-content: center;
+}
+.btn {
+  width: 20rem;
+  height: 3.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--color-light);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .search button {
   width: 3.4rem;
@@ -841,12 +930,12 @@ main .recent-orders a {
 .right-section .reminders .notification.deactive .icon {
   background-color: var(--color-danger);
 }
-#adicionar{
+#adicionar {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#addQtd{
+#addQtd {
   background-color: var(--color-primary);
   color: var(--color-white);
   border-radius: 0.4rem;
@@ -858,22 +947,22 @@ main .recent-orders a {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.itemProd2 p{
+.itemProd2 p {
   font-size: 15px;
 }
-#qtdAt p{
+#qtdAt p {
   margin: 0;
   margin-top: 5%;
   font-weight: normal;
   font-size: 16px !important;
 }
-#qtdAt span{
+#qtdAt span {
   margin: 0;
   margin-top: 5%;
   font-weight: bold;
   font-size: 18px;
 }
-.itemProd2 input{
+.itemProd2 input {
   width: 47%;
   text-align: center;
   font-family: "Poppins", sans-serif;
@@ -956,7 +1045,6 @@ main .recent-orders a {
 }
 
 @media screen and (max-width: 768px) {
-  
   .table2 tr,
   .table tr {
     width: auto;
@@ -974,19 +1062,40 @@ main .recent-orders a {
     gap: 15px;
     grid-template-columns: repeat(2, 1fr);
   }
-  
-#qtdAtual {
-  font-size: 15px;
-}
-#removequantidade,
-#addquantidade {
-  background-color: #1b9c85;
-  width: 2rem;
-  height: 2rem;
-}
-#removequantidade {
-  background-color: #ff0060;
-}
+
+  #gridPedidos {
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .table3 {
+    margin-bottom: 0 !important;
+    margin-top: 27px;
+  }
+
+  .table3 tr {
+    width: auto;
+    margin-bottom: -0%;
+    gap: 49px;
+  }
+  .table3 tr {
+    margin-top: -50px;
+  }
+  #itemDiv {
+    width: 50%;
+  }
+  #qtdAtual {
+    font-size: 15px;
+  }
+  #removequantidade,
+  #addquantidade {
+    background-color: #1b9c85;
+    width: 2rem;
+    height: 2rem;
+  }
+  #removequantidade {
+    background-color: #ff0060;
+  }
   #addproduto {
     font-size: 15px;
   }
@@ -1003,7 +1112,7 @@ main .recent-orders a {
   /* .actions {
     display: none;
   } */
-  
+
   .table2 tr,
   .table tr {
     grid-template-columns: repeat(1, 1fr);

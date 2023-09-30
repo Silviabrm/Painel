@@ -26,7 +26,9 @@ function getValueFromFieldOrParagraph(field, inputField) {
 
 async function ExibirProdutos() {
   try {
-    const response = await fetch(`${settings.ApiUrl}/produtos`);
+    const response = await fetch(`${settings.ApiUrl}/produtos`, {
+      credentials: "include",
+    });
     const data = await response.json();
     gridProdutos.innerHTML = ``;
     if (produtoslink.classList.contains("active")) {
@@ -77,7 +79,7 @@ async function ExibirProdutos() {
             </div>
                 `;
       });
-    } else if(estoquelink.classList.contains("active")){
+    } else if (estoquelink.classList.contains("active")) {
       data.forEach((element) => {
         gridEstoque.innerHTML += `
           <div id="itemDiv2">
@@ -104,13 +106,13 @@ async function ExibirProdutos() {
   }
 }
 
-
 async function updateQuantidade(itemId, amount) {
   try {
     const response = await fetch(
       `${settings.ApiUrl}/updateQuantidade/${itemId}`,
       {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -119,7 +121,7 @@ async function updateQuantidade(itemId, amount) {
         }),
       }
     );
-      
+
     if (!response.ok) {
       console.log("Erro ao atualizar a quantidade.");
     }
@@ -188,6 +190,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log(produtoJSON);
 
         fetch(`${settings.ApiUrl}/addProduto`, {
+          credentials: "include",
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -243,6 +246,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const response = await fetch(
             `${settings.ApiUrl}/produtos/${itemId}`,
             {
+              credentials: "include",
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -301,6 +305,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           const response = await fetch(
             `${settings.ApiUrl}/produtos/${itemId}`,
             {
+              credentials: "include",
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",

@@ -3,10 +3,14 @@ const vendas = document.getElementById("vendas");
 const totusers = document.getElementById("totuser");
 
 const getVendas = async () => {
-  const response = await fetch(`${settings.ApiUrl}/vendas`);
+  const response = await fetch(`${settings.ApiUrl}/getStats`,
+  {
+    credentials: "include",
+  });
   const data = await response.json();
-  vendas.innerHTML = "R$" + data[0].vendas;
-  totusers.innerHTML = data[0].qtdUser;
+  console.log(data);
+  vendas.innerHTML = "R$" + data.vendas;
+  totusers.innerHTML = data.qtdUser;
 }
 
 document.addEventListener("DOMContentLoaded", async function (event) {
