@@ -196,6 +196,8 @@ app.get("/getProdutosPedido/:id", async (req, res) => {
 app.put("/concluirPedido/:id", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   const id = req.params.id;
+  const pedido = await userDataReader.getPedido(id);
+  await userDataReader.addTotalVenda(pedido.total);
   await userDataReader.concluirPedido(id);
   try {
     const resposta = await userDataReader.getProdutosPedido(id);
@@ -208,6 +210,22 @@ app.put("/concluirPedido/:id", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+});
+
+app.put("/destaque/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  const id = req.params.id;
+  const destacado = await userDataReader.getDestaqueProduto(id);
+  
+  console.log(destacado);
+  if (destacado) {
+    await userDataReader.destaqueProduto(id, false);
+    res.send(false);
+  } else if (!destacado){
+    console.log("entrou");
+    await userDataReader.destaqueProduto(id, true);
+    res.send(true);
   }
 });
 

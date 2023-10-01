@@ -80,9 +80,17 @@ async function ExibirProdutos() {
                 `;
       });
     } else if (estoquelink.classList.contains("active")) {
+      gridEstoque.innerHTML = "";
       data.forEach((element) => {
         gridEstoque.innerHTML += `
           <div id="itemDiv2">
+                <div class="destaquediv">
+                  <button id="destaque${element.id}" class="destaque" data-id="${element.id}">
+                    <span class="material-icons-sharp">
+                      favorite
+                    </span>
+                  </button>
+                </div>
                 <div class="itemProd2">
                   <p>${element.nome}</p>
                   <div class="img2">
@@ -99,6 +107,38 @@ async function ExibirProdutos() {
                 </div>
               </div>
                 `;
+
+        if (element.destaque == true) {
+          console.log("teste");
+          document.getElementById(`destaque${element.id}`).style.color = "red";
+        }
+        const destaque = document.querySelectorAll(".destaque");
+        destaque.forEach((element) => {
+          element.addEventListener("click", async function (event) {
+            const itemId = element.getAttribute("data-id");
+            try {
+              const response = await fetch(
+                `${settings.ApiUrl}/destaque/${itemId}`,
+                {
+                  credentials: "include",
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+                const data = await response.text();
+                console.log(data);
+                if (data) {
+                  ExibirProdutos();
+                } else {
+                  console.log("Erro ao atualizar o item.");
+                }
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        });
       });
     }
   } catch (error) {

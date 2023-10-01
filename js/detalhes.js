@@ -92,6 +92,8 @@ document.addEventListener("DOMContentLoaded", async function (event) {
     concPedido.disabled = true;
   } else {
     cancelPedido.addEventListener("click", async function (event) {
+      const confirmed = confirm("Deseja cancelar esse pedido?");
+      if(!confirmed) return;
       const response = await fetch(
         `${settings.ApiUrl}/cancelarPedido/${pedidoId}`,
         {
@@ -103,11 +105,11 @@ document.addEventListener("DOMContentLoaded", async function (event) {
         }
       );
       const data = await response.json();
-      if (data == true) {
-        window.location.reload();
-      }
+      window.location.reload();
     });
     concPedido.addEventListener("click", async function (event) {
+      const confirmed = confirm("Deseja concluir esse pedido?");
+      if(!confirmed) return;
       const response = await fetch(
         `${settings.ApiUrl}/concluirPedido/${pedidoId}`,
         {
@@ -119,9 +121,7 @@ document.addEventListener("DOMContentLoaded", async function (event) {
         }
       );
       const data = await response.json();
-      if (data == true) {
-        window.location.reload();
-      }
+      window.location.reload();
     });
   }
   await preencherPagina(pedido);

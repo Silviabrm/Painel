@@ -1,4 +1,5 @@
 const { format } = require("date-fns");
+const { tr } = require("date-fns/locale");
 const e = require("express");
 
 const { Pool } = require("pg");
@@ -187,6 +188,39 @@ class UserData {
     }
   }
 
+  async getDestaqueProduto(itemId) {
+    let result = await pool.query(
+      `SELECT destaque FROM produtos WHERE id = '${itemId}'`
+    );
+    console.log(result.rows[0].destaque);
+    if (result.rows[0].destaque == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async addTotalVenda(total) {
+    let result = await pool.query(
+      `UPDATE stats SET tot_venda = tot_venda + ${total}`
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async destaqueProduto(itemId, bool) {
+    let result = await pool.query(
+      `UPDATE produtos SET destaque = '${bool}' WHERE id = '${itemId}'`
+    );
+    if (result.rowCount > 0) {
+      return true;
+    }
+  }
+
+
   async cancelarPedido(pedidoId) {
     let result = await pool.query(
       `UPDATE pedidos SET status = 'Cancelado' WHERE num_pedido = '${pedidoId}'`
@@ -311,6 +345,7 @@ class UserData {
         categoria: row.categoria,
         quantidade: row.quantidade,
         imagem: row.imagem,
+        destaque: row.destaque,
       };
     });  
     return data;  
