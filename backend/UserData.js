@@ -174,6 +174,29 @@ class UserData {
       return false;
     }
   }
+  async updateQuantidadeConc (itemId, amount) {
+    console.log(itemId, amount);
+    let result = await pool.query(
+      `UPDATE produtos SET quantidade = quantidade - $1 WHERE id = $2`,
+      [amount, itemId]
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async cancelarPedido(pedidoId) {
+    let result = await pool.query(
+      `UPDATE pedidos SET status = 'Cancelado' WHERE num_pedido = '${pedidoId}'`
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   async getProdutosPedido(pedidoId) {
     let result = await pool.query(
@@ -242,6 +265,17 @@ class UserData {
       };
     });
     return data;
+  }
+
+  async concluirPedido(pedidoId) {
+    let result = await pool.query(
+      `UPDATE pedidos SET status = 'Concluído', pagamento = 'Aprovado' WHERE num_pedido = '${pedidoId}'`
+    );
+    if (result.rowCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async getProduto(id) {

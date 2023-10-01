@@ -68,12 +68,10 @@ app.get("/checkLogin/:email/:senha", async (req, res) => {
   const senha = req.params.senha;
   try {
     const user = await userDataReader.getCleinteByEmail(email);
-    console.log(user);
     await userDataReader.createSessionId(user.id);
     const resposta = await userDataReader.checkLogin(email, senha);
     console.log(resposta + " " + user.id);
     const idSessao = await userDataReader.getSessionId(user.id);
-    console.log(idSessao);
     res.cookie("userId", idSessao, {
       maxAge: 604800000, // 1 semana
       httpOnly: true,
@@ -89,7 +87,6 @@ app.get("/checkLogin/:email/:senha", async (req, res) => {
     console.log(error);
   }
 });
-
 
 app.post("/verificarCookie", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -113,7 +110,6 @@ app.post("/verificarCookie", async (req, res) => {
 
 app.post("/addLog", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  console.log(req.body);
   const nome = req.body.nome;
   const categoria = req.body.categoria;
   const quantidade = req.body.quantidade;
@@ -134,7 +130,6 @@ app.post("/addLog", async (req, res) => {
 
 app.post("/addProduto", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  console.log(req.body);
   const nome = req.body.nome;
   const descricao = req.body.descricao;
   const preco = req.body.preco;
@@ -176,7 +171,6 @@ app.get("/getPedido/:id", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   const id = req.params.id;
   const resposta = await userDataReader.getPedido(id);
-  console.log(resposta);
   res.json(resposta);
 });
 
@@ -188,7 +182,6 @@ app.get("/getStats", async (req, res) => {
     qtdUser: clientes,
     vendas: vendas[0].vendas,
   };
-  console.log(data);
   res.json(data);
 });
 
@@ -197,9 +190,37 @@ app.get("/getProdutosPedido/:id", async (req, res) => {
   const id = req.params.id;
   const resposta = await userDataReader.getProdutosPedido(id);
 
-
   res.json(resposta);
-})
+});
+
+app.put("/concluirPedido/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  const id = req.params.id;
+  await userDataReader.concluirPedido(id);
+  try {
+    const resposta = await userDataReader.getProdutosPedido(id);
+    console.log(resposta);
+    resposta.forEach(async (produto) => {
+      await userDataReader.updateQuantidadeConc(
+        produto.produto_id,
+        produto.quantidade
+      );
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.put("/cancelarPedido/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  const id = req.params.id;
+  const resposta = await userDataReader.cancelarPedido(id);
+  if (resposta) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
 
 app.get("/produtos/:itemId", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -212,7 +233,6 @@ app.get("/produtos/:itemId", async (req, res) => {
   }
   res.json(resposta);
 });
-
 
 app.get("/produtos", async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");

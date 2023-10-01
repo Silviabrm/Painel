@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async function (event) {
 
     const historicoLink = document.getElementById("historico-link");
     historicoLink.addEventListener("click", () => {
+      gridPedidos.innerHTML = "";
       setTimeout(() => {
         if (historicoLink.classList.contains("active")) {
           let gridPedidos = document.getElementById("gridPedidos");
@@ -30,7 +31,15 @@ document.addEventListener("DOMContentLoaded", async function (event) {
                   <p>${order.num_pedido}</p>
                   <p>${order.total}</p>
                   <p>${order.pagamento}</p>
-                  <p>${order.status}</p>
+                  <p class="${
+                    order.status === "Cancelado"
+                      ? "danger"
+                      : order.status === "Pendente"
+                      ? "warning"
+                      : order.status === "Concluído"
+                      ? "success"
+                      : "primary"
+                  }">${order.status}</p>
                   <p>${order.data}</p>
                   <a href="detalhes.html?${order.num_pedido}">Detalhes</a>
                 </div>
@@ -48,10 +57,12 @@ document.addEventListener("DOMContentLoaded", async function (event) {
             <td>R$${order.total}</td>
             <td>${order.pagamento}</td>
             <td class="${
-              order.status === "Recusado"
+              order.status === "Cancelado"
                 ? "danger"
                 : order.status === "Pendente"
                 ? "warning"
+                : order.status === "Concluído"
+                ? "success"
                 : "primary"
             }">${order.status}</td>
         `;

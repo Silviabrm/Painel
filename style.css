@@ -176,6 +176,9 @@ b {
   align-items: center; /* Centralize os itens verticalmente */
   padding: 20px;
 }
+#cancelPedido{
+  background-color: #ff0060;
+}
 a{
   text-decoration: none;
   color: #6c9bcf;
@@ -619,7 +622,10 @@ main .analyse .searches svg circle {
 }
 #buttonDiv{
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+#concPedido {
+  background-color: #1b9c85;
 }
 .btn {
   width: 20rem;
@@ -1053,6 +1059,17 @@ main .recent-orders a {
   }
   .table2 tr {
     margin-top: 20px;
+  }
+
+  #buttonDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #cancelPedido{
+    margin-top: 1rem;
   }
 
   #gridProdutos2 {
